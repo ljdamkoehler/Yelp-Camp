@@ -20,11 +20,12 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/makecampground', async (req, res) => {
-    const camp = new Campground({ title: 'My Backyard' });
-    await camp.save();
-    res.send(camp);
+app.get('/campgrounds', async (req, res) => {
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', { campgrounds });
 })
+
+
 
 app.listen(3000, () => {
     console.log('CONNECTION IS OPEN ON PORT 3000!');
