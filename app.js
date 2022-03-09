@@ -72,6 +72,13 @@ app.put('/campgrounds/:id', async (req, res) => {
     res.redirect(`/campgrounds/${campground._id}`)
 })
 
+//Campground Delete/Destroy Route
+app.delete('/campgrounds/:id', async (req, res) => {
+    const { id } = req.params;
+    const deletedCamp = await Campground.findByIdAndDelete(id);
+    res.redirect('/campgrounds');
+})
+
 //CONFIM THAT SERVER IS UP
 app.listen(3000, () => {
     console.log('CONNECTION IS OPEN ON PORT 3000!');
