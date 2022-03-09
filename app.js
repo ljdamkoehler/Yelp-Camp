@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const Campground = require('./models/campground');
 
 //Middleware
@@ -23,7 +24,8 @@ app.set('views', path.join(__dirname, 'views'))
 
 //Get express to pars the req body
 app.use(express.urlencoded({ extended: true }))
-
+// Use Method Override 
+app.use(methodOverride('_method'));
 //*****
 // Set CRUD Routes
 //*****
@@ -58,10 +60,19 @@ app.get('/campgrounds/:id', async (req, res) => {
 
 
 //Campground Edit/Update Route
-// app.get('/campgrounds/:id/edit', async (req, res) => {
+app.get('/campgrounds/:id/edit', async (req, res) => {
+    const { id } = req.params;
+    const campground = await Campground.findById(id);
+    res.render('campgrounds/edit', { campground })
+})
 
-// })
+app.put('/campgrounds/:id', async (req, res) => {
+    const { id } = req.params;
+    const campground = await Campground.findByIdAndUpdate(id, {...req.body.campground});
+    res.redirect(`/campgrounds/${campground._id}`)
+})
 
+//CONFIM THAT SERVER IS UP
 app.listen(3000, () => {
     console.log('CONNECTION IS OPEN ON PORT 3000!');
 })
