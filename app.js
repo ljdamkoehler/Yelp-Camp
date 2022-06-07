@@ -22,7 +22,7 @@ db.once("open", () => {
 //Execute Express
 const app = express();
 
-//Set ejs as view engine
+//Set ejs as view engine and allow access to views from any dir
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
